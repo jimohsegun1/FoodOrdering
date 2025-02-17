@@ -66,6 +66,7 @@ const ProductDetailsScreen = () => {
   );
 };
 
+// styles
 const styles = StyleSheet.create({
   container: {
     backgroundColor: 'white',
