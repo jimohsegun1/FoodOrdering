@@ -9,7 +9,7 @@ export function ExternalLink(
   return (
     <Link
       hrefAttrs={{
-        // On web launch the link in a new tab.
+        // On web launch the link in a new tab..
         target: '_blank',
       }}
       {...props}
