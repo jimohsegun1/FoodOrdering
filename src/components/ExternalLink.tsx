@@ -9,7 +9,7 @@ export function ExternalLink(
   return (
     <Link
       hrefAttrs={{
-        // On web launch the link in a new tab..
+        // On web, launch the link in a new tab.
         target: '_blank',
       }}
       {...props}
@@ -17,7 +17,7 @@ export function ExternalLink(
       href={props.href}
       onPress={(e) => {
         if (Platform.OS !== 'web') {
-          // Prevent the default behavior of linking to the default browser on native..
+          // Prevent the default behavior of linking to the default browser on native.
           e.preventDefault();
           // Open the link in an in-app browser.
           WebBrowser.openBrowserAsync(props.href as string);
