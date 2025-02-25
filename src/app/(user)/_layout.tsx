@@ -1,29 +1,54 @@
-import Colors from '@/constants/Colors';
-import { FontAwesome } from '@expo/vector-icons';
-import { Link, Stack } from 'expo-router';
-import { Pressable } from 'react-native';
+import FontAwesome from '@expo/vector-icons/FontAwesome';
+import { Link, Redirect, Tabs } from 'expo-router';
+import { Pressable, useColorScheme } from 'react-native';
 
-export default function MenuStack() {
+import Colors from '../../constants/Colors';
+import { useAuth } from '@/providers/AuthProvider';
+
+/**
+ * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
+ */
+function TabBarIcon(props: {
+  name: React.ComponentProps<typeof FontAwesome>['name'];
+  color: string;
+}) {
+  return <FontAwesome size={20} style={{ marginBottom: -3 }} {...props} />;
+}
+
+export default function TabLayout() {
+  const colorScheme = useColorScheme();
+  const { session } = useAuth();
+
+  if (!session) {
+    return <Redirect href={'/'} />;
+  }
+
   return (
-    <Stack
+    <Tabs
       screenOptions={{
-        headerRight: () => (
-          <Link href="/cart" asChild>
-            <Pressable>
-              {({ pressed }) => (
-                <FontAwesome
-                  name="shopping-cart"
-                  size={25}
-                  color={Colors.light.tint}
-                  style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-                />
-              )}
-            </Pressable>
-          </Link>
-        ),
+        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
       }}
     >
-      <Stack.Screen name="index" options={{ title: 'Menu' }} />
-    </Stack>
+      <Tabs.Screen name="index" options={{ href: null }} />
+
+      <Tabs.Screen
+        name="menu"
+        options={{
+          title: 'Menu',
+          headerShown: false,
+          tabBarIcon: ({ color }) => (
+            <TabBarIcon name="cutlery" color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="orders"
+        options={{
+          title: 'Orders',
+          headerShown: false,
+          tabBarIcon: ({ color }) => <TabBarIcon name="list" color={color} />,
+        }}
+      />
+    </Tabs>
   );
 }
